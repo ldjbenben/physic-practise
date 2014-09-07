@@ -1,77 +1,73 @@
 package phisics
 {
 	import flash.display.Sprite;
-	import flash.events.TimerEvent;
-	import flash.text.TextField;
-	import flash.utils.Timer;
+	import flash.events.Event;
+	
+	import display.graphics.Ball;
 
 	public class LinearMotion extends Sprite
 	{
-		private var _v0:Number; // 初速度
-		private var _a:Number; // 加速度
-		private var _lengthScalar:Number = 10; // 刻度尺比例1m=x*px
-		private var _timer:Timer;
-		private var _rect:Sprite;
-		private var _time:int = 0;
-		private var _microseconds:int = 100;
-		private var _panel:Sprite;
-		private var _txtSpeedTip:TextField;
-		private var _txtSpeed:TextField;
+		private var _ball:Ball;
+		private var _vx:Number;
+		private var _vy:Number;
+		//边界设置
+		private var _left:int = 0; 
+		private var _top:int = 0; 
+		private var _right:int; 
+		private var _bottom:int;
 		
-		
-		public function LinearMotion(v0:Number, a:Number)
+		public function LinearMotion(vx:Number = 2, vy:Number = 2)
 		{
-			this._v0 = v0 * this._lengthScalar;
-			this._a = a * this._lengthScalar;
-			
-			this.graphics.beginFill(0xffffff);
-			this.graphics.drawRect(0, 0, 500, 500);
-			this.graphics.endFill();
-			
-			_rect = new Sprite();
-			_rect.graphics.beginFill(0x888800);
-			_rect.graphics.drawRect(0, 0, 50, 50);
-			_rect.graphics.endFill();
-			this.addChild(_rect);
-			
-			this.drawPanel();
-			
-			_timer = new Timer(this._microseconds);
-			_timer.addEventListener(TimerEvent.TIMER, motion);
-			_timer.start();
+			this._vx = vx;
+			this._vy = vy;
+			init();
 		}
 		
-		private function motion(event:TimerEvent):void
+		private function init():void
 		{
-			this._time++;
+			_ball = new Ball(20);
+			addChild(_ball);
+			_ball.x = _ball.radius;
+			_ball.y = _ball.radius;
+			addEventListener(Event.ENTER_FRAME, onEnterFrame);
+			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+		}
+		
+		private function onAddedToStage(e:Event):void
+		{
+			_bottom = stage.stageHeight;
+			_right = stage.stageWidth;
+		}
+		
+		private function onEnterFrame(e:Event):void
+		{
+			_ball.x += _vx;
+			_ball.y += _vy;
 			
-			if(_rect.x >= 500)
+			if(_ball.x > (_right - _ball.radius))
 			{
-				this._time = 0;
-				_rect.x =  0;
+				_vx = -_vx;
+//				_ball.x = _left-_ball.radius;
 			}
 			
-			var v:Number = this._v0 + this._time*this._microseconds/1000*this._a;
-			_rect.x += v;
-			this._txtSpeed.text = v/this._lengthScalar+"m/s";
+			if(_ball.y > (_bottom - _ball.radius))
+			{
+				_vy = -_vy;
+//				_ball.y = _top-_ball.radius;
+			}
+			
+			if(_ball.x < (_left+_ball.radius))
+			{
+				_vx = -_vx;
+//				_ball.x = _right+_ball.radius;
+			}
+			
+			if(_ball.y < _top+_ball.radius)
+			{
+				_vy = -_vy;
+//				_ball.y = _bottom+_ball.radius;
+			}
 		}
 		
-		private function drawPanel():void
-		{
-			this._panel = new Sprite();
-			
-			this._txtSpeedTip = new TextField();
-			this._txtSpeedTip.text = "Speed:";
-			this._txtSpeedTip.width = 50;
-			this._panel.addChild(this._txtSpeedTip);
-			this._txtSpeedTip.x = 0;
-			this._txtSpeedTip.y = 0;
-			
-			this._txtSpeed = new TextField();
-			this._panel.addChild(this._txtSpeed);
-			this._txtSpeed.x = this._txtSpeedTip.width + this._txtSpeedTip.x + 10;
-			
-			this.addChild(this._panel);
-		}
 	}
 }
