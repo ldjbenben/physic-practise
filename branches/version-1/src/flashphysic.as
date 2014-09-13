@@ -3,7 +3,8 @@ package
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
-	import phisics.LinearMotion4;
+//	import phisics.LinearMotion4;
+	import phisics.LinearMotion5;
 	
 //	import phisics.LinearMotion2;
 //	import phisics.LinearMotion3;
@@ -14,7 +15,8 @@ package
 //		private var _linearMotion:LinearMotion;
 //		private var _linearMotion:LinearMotion2;
 //		private var _linearMotion:LinearMotion3;
-		private var _linearMotion:LinearMotion4;
+//		private var _linearMotion:LinearMotion4;
+		private var _linearMotion:LinearMotion5;
 		
 		public function flashphysic()
 		{
@@ -22,7 +24,7 @@ package
 			this.graphics.drawRect(0, 0, 700, 600);
 			this.graphics.endFill();
 			
-			_linearMotion = new LinearMotion4(10, 0, 0.5);
+			_linearMotion = new LinearMotion5(10, 0);
 			addChild(_linearMotion);
 			
 			/*
