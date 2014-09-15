@@ -13,7 +13,7 @@ package display.graphics
 		private var _vy:Number; // y轴方向的速度
 		private var _isDrag:Boolean; // 是否正在被拖拽
 		
-		public function Ball(radius:Number = 50, color:uint = 0x666666, mass:Number = 1, vx:Number = 0, vy:Number = 0)
+		public function Ball(radius:Number = 50, color:uint = 0x660000, mass:Number = 1, vx:Number = 0, vy:Number = 0)
 		{
 			this._radius = radius;
 			this._color = color;

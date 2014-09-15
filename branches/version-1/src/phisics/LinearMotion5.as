@@ -36,7 +36,7 @@ package phisics
 		{
 			this._gravity = gravity;
 			
-			_ball = new Ball(36);
+			_ball = new Ball(36, 0x666666);
 			_ball.vx = vx;
 			_ball.vy = vy;
 			addChild(_ball);
